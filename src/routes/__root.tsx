@@ -58,7 +58,7 @@ export const Route = createRootRoute({
     );
   },
   notFoundComponent: () => <NotFound />,
-  component: RootComponent,
+  shellComponent: RootDocument,
 });
 
 function RootComponent() {

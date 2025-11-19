@@ -20,6 +20,8 @@ export function getRouter() {
     router,
     queryClient,
   });
+
+  return router;
 }
 
 declare module "@tanstack/react-router" {

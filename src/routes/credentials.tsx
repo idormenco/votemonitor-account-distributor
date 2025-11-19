@@ -10,7 +10,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { getSupabaseServerClient } from "@/utils/supabase";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  queryOptions,
+  skipToken,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import Cookies from "js-cookie";
@@ -24,6 +28,8 @@ export const fetchCredentials = createServerFn({ method: "GET" })
     const { data, error } = await supabase.rpc("claim_demo_account", {
       cookie: cookieHash,
     });
+
+    console.log(cookieHash);
     if (error) {
       console.error(error);
       throw new Error("Failed to claim demo account");
@@ -42,7 +48,7 @@ export const Route = createFileRoute("/credentials")({
 export const fetchCredentialsQueryOptions = (hash: string | undefined) =>
   queryOptions({
     queryKey: ["credentials", hash],
-    queryFn: () => fetchCredentials({ data: hash! }),
+    queryFn: () => (hash ? () => fetchCredentials({ data: hash! }) : skipToken),
     enabled: !!hash,
   });
 
