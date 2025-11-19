@@ -30,8 +30,8 @@ export const fetchPost = createServerFn({ method: "GET" })
     }
 
     return {
-      email: data?.email,
-      password: data?.password,
+      email: data?.[0]?.email,
+      password: data?.[0]?.password,
     };
   });
 
