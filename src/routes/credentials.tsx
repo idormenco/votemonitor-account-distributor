@@ -13,6 +13,7 @@ import { getSupabaseServerClient } from "@/utils/supabase";
 import {
   queryOptions,
   skipToken,
+  useQuery,
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -22,14 +23,18 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export const fetchCredentials = createServerFn({ method: "GET" })
-  .inputValidator((d: string) => d)
+  .inputValidator((d: string | undefined) => d)
   .handler(async ({ data: cookieHash }) => {
     const supabase = getSupabaseServerClient();
+    console.log(cookieHash);
+    if (!cookieHash) {
+      return null;
+    }
+
     const { data, error } = await supabase.rpc("claim_demo_account", {
       cookie: cookieHash,
     });
 
-    console.log(cookieHash);
     if (error) {
       console.error(error);
       throw new Error("Failed to claim demo account");
@@ -45,31 +50,24 @@ export const Route = createFileRoute("/credentials")({
   component: RouteComponent,
 });
 
-export const fetchCredentialsQueryOptions = (hash: string | undefined) =>
+export const fetchCredentialsQueryOptions = () =>
   queryOptions({
-    queryKey: ["credentials", hash],
-    queryFn: () => (hash ? () => fetchCredentials({ data: hash! }) : skipToken),
-    enabled: !!hash,
+    queryKey: ["credentials"],
+    queryFn: () => {
+      let hash = Cookies.get("session_id");
+      if (!hash) {
+        hash = uuidv4();
+        Cookies.set("session_id", hash);
+      }
+
+      return fetchCredentials({ data: hash });
+    },
   });
 
 function RouteComponent() {
-  const [cookieHash, setCookieHash] = useState<string | undefined>(undefined);
+  const { data } = useQuery(fetchCredentialsQueryOptions());
 
-  useEffect(() => {
-    let hash = Cookies.get("session_id");
-    if (!hash) {
-      hash = uuidv4();
-      Cookies.set("session_id", hash);
-    }
-
-    setCookieHash(hash);
-  }, []);
-
-  const {
-    data: { email, password },
-  } = useSuspenseQuery(fetchCredentialsQueryOptions(cookieHash));
-
-  const showCredentials = email && password;
+  const showCredentials = data?.email && data?.password;
 
   return (
     <div className="flex items-center justify-center">
@@ -93,10 +91,10 @@ function RouteComponent() {
         {showCredentials && (
           <CardContent className="space-y-6">
             <label className="text-sm font-medium">Email</label>
-            <Input type="email" value={email} readOnly />
+            <Input type="email" value={data?.email} readOnly />
 
             <label className="text-sm font-medium">Password</label>
-            <PasswordInput value={password} readOnly />
+            <PasswordInput value={data?.password} readOnly />
           </CardContent>
         )}
       </Card>
