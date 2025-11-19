@@ -63,11 +63,22 @@ export const fetchCredentialsQueryOptions = () =>
       return fetchCredentials({ data: hash });
     },
   });
-
 function RouteComponent() {
-  const { data } = useQuery(fetchCredentialsQueryOptions());
+  const { data, isLoading } = useQuery(fetchCredentialsQueryOptions());
 
   const showCredentials = data?.email && data?.password;
+
+  if (isLoading) {
+    // Display a loader while data is being fetched
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center space-y-2">
+          <div className="loader border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin mx-auto"></div>
+          <p className="text-lg font-medium">Fetching your credentials...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center">
