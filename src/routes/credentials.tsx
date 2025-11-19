@@ -10,20 +10,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { getSupabaseServerClient } from "@/utils/supabase";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import Cookies from "js-cookie";
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { createServerFn } from "@tanstack/react-start";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-export const fetchPost = createServerFn({ method: "GET" })
+export const fetchCredentials = createServerFn({ method: "GET" })
   .inputValidator((d: string) => d)
   .handler(async ({ data: cookieHash }) => {
     const supabase = getSupabaseServerClient();
     const { data, error } = await supabase.rpc("claim_demo_account", {
       cookie: cookieHash,
     });
-    console.log(data, error);
     if (error) {
       console.error(error);
       throw new Error("Failed to claim demo account");
@@ -37,18 +37,31 @@ export const fetchPost = createServerFn({ method: "GET" })
 
 export const Route = createFileRoute("/credentials")({
   component: RouteComponent,
-  loader: async () => {
-    let cookieHash = Cookies.get("session_id");
-    if (!cookieHash) {
-      cookieHash = uuidv4();
-      Cookies.set("session_id", cookieHash, { expires: 7 });
+});
+
+export const fetchCredentialsQueryOptions = (hash: string | undefined) =>
+  queryOptions({
+    queryKey: ["credentials", hash],
+    queryFn: () => fetchCredentials({ data: hash! }),
+    enabled: !!hash,
+  });
+
+function RouteComponent() {
+  const [cookieHash, setCookieHash] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    let hash = Cookies.get("session_id");
+    if (!hash) {
+      hash = uuidv4();
+      Cookies.set("session_id", hash);
     }
 
-    return fetchPost({ data: cookieHash! });
-  },
-});
-function RouteComponent() {
-  const { email, password } = Route.useLoaderData();
+    setCookieHash(hash);
+  }, []);
+
+  const {
+    data: { email, password },
+  } = useSuspenseQuery(fetchCredentialsQueryOptions(cookieHash));
 
   const showCredentials = email && password;
 
