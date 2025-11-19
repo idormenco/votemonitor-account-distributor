@@ -4,16 +4,20 @@ import tsConfigPaths from "vite-tsconfig-paths";
 import tailwindcss from "@tailwindcss/vite";
 import viteReact from "@vitejs/plugin-react";
 import path from "path";
-
+import netlify from "@netlify/vite-plugin-tanstack-start";
 export default defineConfig({
   server: {
     port: 3000,
+  },
+  server: {
+    preset: "netlify",
   },
   plugins: [
     tsConfigPaths({
       projects: ["./tsconfig.json"],
     }),
     tanstackStart(),
+    netlify(),
     viteReact(),
     tailwindcss(),
   ],
