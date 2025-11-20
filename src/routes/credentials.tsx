@@ -67,11 +67,26 @@ function RouteComponent() {
   if (isLoading) {
     // Display a loader while data is being fetched
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-center space-y-2">
-          <Spinner className="size-10 loader " />
-          <p className="text-lg font-medium">Fetching your credentials...</p>
-        </div>
+      <div className="flex items-center justify-center">
+        <Card className="w-full max-w-xl shadow-xl border">
+          <CardHeader className="text-center space-y-2">
+            <CardTitle className="text-3xl font-bold">
+              Fetching your credentials...
+            </CardTitle>
+            <CardDescription>
+              Patience is a virtue. We are working on it.
+            </CardDescription>
+            <CardAction>
+              <Button asChild variant="link" className="cursor-pointer">
+                <Link to="/">Back</Link>
+              </Button>
+            </CardAction>
+          </CardHeader>
+
+          <CardContent className="space-y-6 flex items-center justify-center">
+            <Spinner className="size-10 loader " />
+          </CardContent>
+        </Card>
       </div>
     );
   }

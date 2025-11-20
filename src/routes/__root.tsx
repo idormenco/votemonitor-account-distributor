@@ -68,19 +68,11 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-      enableColorScheme
-    >
-      <RootDocument>
-        <NavigationProgress />
+    <RootDocument>
+      <NavigationProgress />
 
-        <Outlet />
-      </RootDocument>
-    </ThemeProvider>
+      <Outlet />
+    </RootDocument>
   );
 }
 
@@ -91,7 +83,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="min-h-[calc(100vh-10rem)] bg-background font-sans antialiased">
-        <>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+          enableColorScheme
+        >
           <SiteHeader />
 
           <div className="container-wrapper">
@@ -99,17 +97,17 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               <section>{children}</section>
             </div>
           </div>
-        </>
-        <footer>
-          <div className="mx-auto max-w-7xl px-6 pb-8 lg:px-8 ">
-            <Separator />
-            <div>
-              <P>&copy; 2025 Commit Global</P>
+          <footer>
+            <div className="mx-auto max-w-7xl px-6 pb-8 lg:px-8 ">
+              <Separator />
+              <div>
+                <P>&copy; 2025 Commit Global</P>
+              </div>
             </div>
-          </div>
-        </footer>
-        <TanStackRouterDevtools position="bottom-right" />
-        <Scripts />
+          </footer>
+          <TanStackRouterDevtools position="bottom-right" />
+          <Scripts />
+        </ThemeProvider>
       </body>
     </html>
   );
