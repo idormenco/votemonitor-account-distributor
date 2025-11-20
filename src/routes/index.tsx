@@ -75,6 +75,26 @@ function Home() {
               </CardAction>
             </CardHeader>
           </Card>
+          <Card className="w-full col-span-full">
+            <CardHeader>
+              <CardTitle>Want to know more about Commit Global?</CardTitle>
+              <CardDescription>
+                Want to learn how we are taking care of the world's
+                infrastructure for good.
+              </CardDescription>
+              <CardAction>
+                <Button asChild variant="outline">
+                  <a
+                    href="https://commitglobal.org"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Visit us
+                  </a>
+                </Button>
+              </CardAction>
+            </CardHeader>
+          </Card>
         </div>
       </div>
     </div>

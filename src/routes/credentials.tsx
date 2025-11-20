@@ -1,3 +1,4 @@
+import { Icons } from "@/components/Icons";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,24 +10,19 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { Spinner } from "@/components/ui/spinner";
 import { getSupabaseServerClient } from "@/utils/supabase";
-import {
-  queryOptions,
-  skipToken,
-  useQuery,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export const fetchCredentials = createServerFn({ method: "GET" })
   .inputValidator((d: string | undefined) => d)
   .handler(async ({ data: cookieHash }) => {
     const supabase = getSupabaseServerClient();
-    console.log(cookieHash);
+
     if (!cookieHash) {
       return null;
     }
@@ -73,7 +69,7 @@ function RouteComponent() {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-center space-y-2">
-          <div className="loader border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin mx-auto"></div>
+          <Spinner className="size-10 loader " />
           <p className="text-lg font-medium">Fetching your credentials...</p>
         </div>
       </div>

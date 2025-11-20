@@ -11,6 +11,11 @@ import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary";
 import { NotFound } from "../components/NotFound";
 import appCss from "../styles/app.css?url";
 import { seo } from "../utils/seo";
+import { P } from "@/components/ui/typography";
+import { Separator } from "@/components/ui/separator";
+import { NavigationProgress } from "@/components/navigation-progress";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { SiteHeader } from "@/components/SiteHeader";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -58,31 +63,48 @@ export const Route = createRootRoute({
     );
   },
   notFoundComponent: () => <NotFound />,
-  shellComponent: RootDocument,
+  component: RootComponent,
 });
 
 function RootComponent() {
   return (
-    <RootDocument>
-      <Outlet />
-    </RootDocument>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+      enableColorScheme
+    >
+      <RootDocument>
+        <NavigationProgress />
+
+        <Outlet />
+      </RootDocument>
+    </ThemeProvider>
   );
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html className="">
+    <html className="h-full bg-background">
       <head>
         <HeadContent />
       </head>
-      <body className="min-h-90vh">
-        <div className="mt-10 mb-10">{children}</div>
+      <body className="min-h-[calc(100vh-10rem)] bg-background font-sans antialiased">
+        <>
+          <SiteHeader />
+
+          <div className="container-wrapper">
+            <div className="container py-6">
+              <section>{children}</section>
+            </div>
+          </div>
+        </>
         <footer>
           <div className="mx-auto max-w-7xl px-6 pb-8 lg:px-8 ">
-            <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24 dark:border-white/10">
-              <p className="text-sm/6 text-gray-600 dark:text-gray-400">
-                &copy; 2025 Commit Global
-              </p>
+            <Separator />
+            <div>
+              <P>&copy; 2025 Commit Global</P>
             </div>
           </div>
         </footer>
