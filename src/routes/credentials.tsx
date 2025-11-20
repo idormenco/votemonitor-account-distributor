@@ -1,4 +1,3 @@
-import { Icons } from "@/components/Icons";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,14 +7,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Spinner } from "@/components/ui/spinner";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { getSupabaseServerClient } from "@/utils/supabase";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import Cookies from "js-cookie";
+import { Check, Copy, EyeIcon, EyeOffIcon } from "lucide-react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export const fetchCredentials = createServerFn({ method: "GET" })
@@ -63,6 +71,11 @@ function RouteComponent() {
   const { data, isLoading } = useQuery(fetchCredentialsQueryOptions());
 
   const showCredentials = data?.email && data?.password;
+  const { copy: copyEmail, isCopied: isEmailCopied } = useCopyToClipboard();
+  const { copy: copyPassword, isCopied: isPasswordCopied } =
+    useCopyToClipboard();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   if (isLoading) {
     // Display a loader while data is being fetched
@@ -112,14 +125,90 @@ function RouteComponent() {
 
         {showCredentials && (
           <CardContent className="space-y-6">
-            <label className="text-sm font-medium">Email</label>
-            <Input type="email" value={data?.email} readOnly />
+            <InputGroup>
+              <InputGroupInput
+                id="email"
+                placeholder={data?.email || ""}
+                value={data?.email || ""}
+                readOnly
+              />
+              <InputGroupAddon align="block-start">
+                <Label htmlFor="email" className="text-foreground">
+                  Email
+                </Label>
 
-            <label className="text-sm font-medium">Password</label>
-            <PasswordInput value={data?.password} readOnly />
+                <InputGroupButton
+                  variant="ghost"
+                  aria-label="Copy"
+                  title="Copy"
+                  className="ml-auto rounded-full"
+                  size="icon-xs"
+                  onClick={() => {
+                    copyEmail(data?.email || "");
+                  }}
+                >
+                  {isEmailCopied ? <Check /> : <Copy />}
+                </InputGroupButton>
+              </InputGroupAddon>
+            </InputGroup>
+
+            <InputGroup>
+              <InputGroupInput
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder={data?.password || ""}
+                value={data?.password || ""}
+                readOnly
+              />
+              <InputGroupAddon align="block-start">
+                <Label htmlFor="password" className="text-foreground">
+                  Password
+                </Label>
+                <div className="flex items-center gap-2 ml-auto">
+                  <InputGroupButton
+                    variant="ghost"
+                    aria-label="Copy"
+                    title="Copy"
+                    className="ml-auto rounded-full"
+                    size="icon-xs"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
+                    {showPassword ? (
+                      <EyeIcon className="h-4 w-4" aria-hidden="true" />
+                    ) : (
+                      <EyeOffIcon className="h-4 w-4" aria-hidden="true" />
+                    )}
+                    <span className="sr-only">
+                      {showPassword ? "Hide password" : "Show password"}
+                    </span>
+                  </InputGroupButton>
+                  <InputGroupButton
+                    variant="ghost"
+                    aria-label="Copy"
+                    title="Copy"
+                    className="ml-auto rounded-full"
+                    size="icon-xs"
+                    onClick={() => {
+                      copyPassword(data?.password || "");
+                    }}
+                  >
+                    {isPasswordCopied ? <Check /> : <Copy />}
+                  </InputGroupButton>
+                </div>
+              </InputGroupAddon>
+            </InputGroup>
           </CardContent>
         )}
       </Card>
+
+      <style>{`
+					.hide-password-toggle::-ms-reveal,
+					.hide-password-toggle::-ms-clear {
+						visibility: hidden;
+						pointer-events: none;
+						display: none;
+					}
+				`}</style>
     </div>
   );
 }
