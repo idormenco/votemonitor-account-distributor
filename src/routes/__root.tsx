@@ -13,9 +13,10 @@ import appCss from "../styles/app.css?url";
 import { seo } from "../utils/seo";
 import { P } from "@/components/ui/typography";
 import { Separator } from "@/components/ui/separator";
-import { NavigationProgress } from "@/components/navigation-progress";
+import { NavigationProgress } from "@/components/NavigationProgress";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SiteHeader } from "@/components/SiteHeader";
+import CookieConsent from "@/components/CookieConsents";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -97,6 +98,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               <section>{children}</section>
             </div>
           </div>
+          <CookieConsent />
+
           <footer>
             <div className="mx-auto max-w-7xl px-6 pb-8 lg:px-8 ">
               <Separator />
@@ -111,4 +114,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
+}
+function useServerContext() {
+  throw new Error("Function not implemented.");
 }
