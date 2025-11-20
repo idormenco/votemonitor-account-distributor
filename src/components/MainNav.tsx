@@ -5,6 +5,7 @@ export default function MainNav() {
   return (
     <div className="hidden md:flex">
       <Link to="/" className="flex items-center gap-2">
+        <Icons.logoVM className="h-10 w-10" />
         <span className="hidden font-bold lg:inline-block">
           Vote Monitor | Commit Global
         </span>
