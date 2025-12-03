@@ -1,5 +1,6 @@
 import android from "@/assets/android.png";
 import ios from "@/assets/ios.png";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -48,15 +49,18 @@ function Home() {
                   {platform.name}
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <img
-                  onClick={() => {
-                    window.open(platform.href, "_blank");
-                  }}
-                  src={platform.image}
-                  alt={platform.name}
-                  className="w-96 h-96 cursor-pointer"
-                />
+              <CardContent className="px-2 sm:px-4">
+                <AspectRatio ratio={1}>
+                  <img
+                    onClick={() => {
+                      window.open(platform.href, "_blank");
+                    }}
+                    src={platform.image}
+                    alt={platform.name}
+                    className="w-full h-full object-contain p-4 bg-white cursor-pointer"
+                    style={{ imageRendering: "pixelated" }}
+                  />
+                </AspectRatio>
               </CardContent>
             </Card>
           ))}
