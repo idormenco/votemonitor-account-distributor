@@ -40,7 +40,7 @@ function Home() {
           <H1>Vote Monitor</H1>
         </div>
       </div>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
         <div className="mx-auto grid max-w-md grid-cols-1 gap-8 lg:max-w-4xl lg:grid-cols-2">
           {platforms.map((platform) => (
             <Card className="w-full" key={platform.id}>
@@ -81,10 +81,10 @@ function Home() {
           </Card>
           <Card className="w-full col-span-full">
             <CardHeader>
-              <CardTitle>Want to know more about Commit Global?</CardTitle>
+              <CardTitle>Want to know more about us and our work?</CardTitle>
               <CardDescription>
-                Want to learn how we are taking care of the world's
-                infrastructure for good.
+                Learn how we are taking care of the world's infrastructure for
+                good.
               </CardDescription>
               <CardAction>
                 <Button asChild variant="outline">
