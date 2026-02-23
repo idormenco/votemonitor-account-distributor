@@ -79,7 +79,7 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html className="h-full bg-background">
+    <html lang="en" className="h-full bg-background" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
@@ -104,7 +104,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <div className="mx-auto max-w-7xl px-6 pb-8 lg:px-8 ">
               <Separator />
               <div>
-                <P>&copy; 2025 Commit Global</P>
+                <P>&copy; 2026 Commit Global</P>
               </div>
             </div>
           </footer>
@@ -114,7 +114,4 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
-}
-function useServerContext() {
-  throw new Error("Function not implemented.");
 }

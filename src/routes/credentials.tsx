@@ -78,7 +78,6 @@ function RouteComponent() {
   const [showPassword, setShowPassword] = useState(false);
 
   if (isLoading) {
-    // Display a loader while data is being fetched
     return (
       <div className="flex items-center justify-center">
         <Card className="w-full max-w-xl shadow-xl border">

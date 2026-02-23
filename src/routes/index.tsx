@@ -17,22 +17,22 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-function Home() {
-  const platforms = [
-    {
-      name: "Android",
-      id: "android",
-      href: "https://play.google.com/store/apps/details?id=org.commitglobal.votemonitor.app",
-      image: android,
-    },
-    {
-      name: "iOS",
-      id: "ios",
-      href: "https://apps.apple.com/us/app/votemonitor/id6774144458",
-      image: ios,
-    },
-  ];
+const platforms = [
+  {
+    name: "Android",
+    id: "android",
+    href: "https://play.google.com/store/apps/details?id=org.commitglobal.votemonitor.app",
+    image: android,
+  },
+  {
+    name: "iOS",
+    id: "ios",
+    href: "https://apps.apple.com/us/app/votemonitor/id6774144458",
+    image: ios,
+  },
+];
 
+function Home() {
   return (
     <div className="isolate overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 text-center pb-4 lg:px-8">
@@ -79,6 +79,21 @@ function Home() {
               </CardAction>
             </CardHeader>
           </Card>
+
+          <Card className="w-full col-span-full">
+            <CardHeader>
+              <CardTitle>How to use the app?</CardTitle>
+              <CardDescription>
+                Don't worry we won't ask for your credit card details ;)
+              </CardDescription>
+              <CardAction>
+                <Button asChild>
+                  <Link to="/how-to">Learn how to use the app</Link>
+                </Button>
+              </CardAction>
+            </CardHeader>
+          </Card>
+
           <Card className="w-full col-span-full">
             <CardHeader>
               <CardTitle>Want to know more about us and our work?</CardTitle>
