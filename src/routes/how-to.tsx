@@ -9,8 +9,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import loginAsObserver from "@/assets/loginAsObserver.jpg";
 import fillInCredentials from "@/assets/fillInCredentials.jpg";
-// import startMonitoring from "@/assets/startMonitoring.jpg";
-import startMonitoring from "@/assets/fillInCredentials.jpg";
+import startMonitoring from "@/assets/startMonitoring.jpg";
 import ZoomableImage from "@/components/ZoomableImage";
 
 const steps = [
