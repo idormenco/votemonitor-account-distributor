@@ -15,6 +15,43 @@ export const Icons = {
       </g>
     </svg>
   ),
+  logoVMColor: (props: IconProps) => (
+    <svg
+      width={451}
+      height={200}
+      viewBox="0 0 451 200"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M251.631 16.1988L200.758 104.312L149.886 192.427H353.376L302.504 104.312L251.631 16.1988Z"
+        fill="#5F2D8C"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M136.768 200H366.493L309.062 100.525L251.631 1.05197L194.199 100.525L136.768 200ZM163.003 184.853L207.317 108.099L251.631 31.3454L340.258 184.853H163.003Z"
+        fill="#5F2D8C"
+      />
+      <path
+        d="M335.59 16.1988L284.716 104.312L233.844 192.427H437.334L386.462 104.312L335.59 16.1988Z"
+        fill="#231F20"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M220.726 200H450.451L393.02 100.525L335.589 1.05197L278.157 100.525L220.726 200ZM246.961 184.853L291.274 108.099L335.589 31.3454L424.216 184.853H246.961Z"
+        fill="#231F20"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M114.862 198.948L172.294 99.4748L229.725 0H0L57.4308 99.4747L114.862 198.948ZM114.862 168.655L26.2349 15.1468H203.49L159.177 91.9012L114.862 168.655Z"
+        fill="#231F20"
+      />
+    </svg>
+  ),
   logoCommitGlobal: (props: IconProps) => (
     <svg
       className="fill-current h-6 sm:h-8 shrink-0"

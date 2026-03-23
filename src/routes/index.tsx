@@ -1,5 +1,4 @@
-import android from "@/assets/android.png";
-import ios from "@/assets/ios.png";
+import { Icons } from "@/components/Icons";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { QRCode, QRCodeCanvas, QRCodeOverlay, QRCodeSkeleton, QRCodeSvg } from "@/components/ui/qr-code";
 import { H1 } from "@/components/ui/typography";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
@@ -22,13 +22,11 @@ const platforms = [
     name: "Android",
     id: "android",
     href: "https://play.google.com/store/apps/details?id=org.commitglobal.votemonitor.app",
-    image: android,
   },
   {
     name: "iOS",
     id: "ios",
     href: "https://apps.apple.com/us/app/votemonitor/id6774144458",
-    image: ios,
   },
 ];
 
@@ -50,17 +48,21 @@ function Home() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="px-2 sm:px-4">
-                <AspectRatio ratio={1}>
-                  <img
-                    onClick={() => {
-                      window.open(platform.href, "_blank");
-                    }}
-                    src={platform.image}
-                    alt={platform.name}
-                    className="w-full h-full object-contain p-4 bg-white cursor-pointer"
-                    style={{ imageRendering: "pixelated" }}
-                  />
-                </AspectRatio>
+                <QRCode
+                  value={platform.href}
+                  level="H"
+                  className="gap-4 cursor-pointer"
+                  size={256}
+                  onClick={() => {
+                    window.open(platform.href, "_blank");
+                  }}
+                >
+                  <QRCodeSkeleton />
+                  <QRCodeCanvas />
+                  <QRCodeOverlay className="border-1 border-black bg-[#FFD209] rounded-none">
+                    <Icons.logoVMColor className="size-16 bg-[#FFD209]" />
+                  </QRCodeOverlay>
+                </QRCode>
               </CardContent>
             </Card>
           ))}
